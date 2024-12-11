@@ -5,7 +5,7 @@ export const Header = () => {
     <AppBar position="static" sx={{ width: "100%" }}>
       <Toolbar variant="dense">
         <Typography variant="h6" noWrap>
-          リーグ戦管理
+          ポケミアリーグ
         </Typography>
       </Toolbar>
     </AppBar>

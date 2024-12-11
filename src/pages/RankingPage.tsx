@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { getAllMatches } from "../services/firestore";
 import { calculateRankingData } from "../services/rankingLogic";
 import { Match } from "../types/match";
-import { Box, Typography, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
 
 export function RankingPage() {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -15,7 +23,9 @@ export function RankingPage() {
 
   return (
     <Box p={2}>
-      <Typography variant="h5" mb={2}>ランキング</Typography>
+      <Typography variant="h5" mb={2}>
+        ポケミアリーグ Season1
+      </Typography>
       <Table>
         <TableHead>
           <TableRow>
@@ -23,6 +33,8 @@ export function RankingPage() {
             <TableCell>終</TableCell>
             <TableCell>勝</TableCell>
             <TableCell>負</TableCell>
+            <TableCell>+/-</TableCell>
+            <TableCell>差</TableCell>
             <TableCell>点</TableCell>
           </TableRow>
         </TableHead>
@@ -33,6 +45,13 @@ export function RankingPage() {
               <TableCell>{p.matches}</TableCell>
               <TableCell>{p.wins}</TableCell>
               <TableCell>{p.losses}</TableCell>
+              <TableCell>
+                {p.totalScored}-{p.totalConceded}
+              </TableCell>
+              <TableCell>
+                {p.totalScored - p.totalConceded > 0 ? "+" : ""}
+                {p.totalScored - p.totalConceded}
+              </TableCell>
               <TableCell>{p.points}</TableCell>
             </TableRow>
           ))}

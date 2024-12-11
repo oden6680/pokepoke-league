@@ -7,31 +7,40 @@ interface PlayerStats {
   losses: number;
   matches: number;
   deckUsage: Record<string, number>;
+  totalScored: number;
+  totalConceded: number;
 }
 
 export function calculateRankingData(matches: Match[]): PlayerStats[] {
   const playersSet = new Set<string>();
-  matches.forEach(m => {
+  matches.forEach((m) => {
     playersSet.add(m.player1);
     playersSet.add(m.player2);
   });
 
   const playerStatsMap: Record<string, PlayerStats> = {};
-  playersSet.forEach(p => {
+  playersSet.forEach((p) => {
     playerStatsMap[p] = {
       playerName: p,
       points: 0,
       wins: 0,
       losses: 0,
       matches: 0,
-      deckUsage: {}
-    }
+      deckUsage: {},
+      totalScored: 0,
+      totalConceded: 0,
+    };
   });
 
   for (const match of matches) {
     const { player1, player2, games } = match;
     const p1Wins = games.reduce((acc, g) => acc + g.player1Score, 0);
     const p2Wins = games.reduce((acc, g) => acc + g.player2Score, 0);
+
+    playerStatsMap[player1].totalScored += p1Wins;
+    playerStatsMap[player1].totalConceded += p2Wins;
+    playerStatsMap[player2].totalScored += p2Wins;
+    playerStatsMap[player2].totalConceded += p1Wins;
 
     let winner: string;
     let loser: string;
@@ -46,7 +55,7 @@ export function calculateRankingData(matches: Match[]): PlayerStats[] {
     }
 
     const isFullLength = totalGames === 5;
-    playerStatsMap[winner].points += 3; 
+    playerStatsMap[winner].points += 3;
     if (isFullLength) {
       playerStatsMap[loser].points += 1;
     }
@@ -58,12 +67,13 @@ export function calculateRankingData(matches: Match[]): PlayerStats[] {
 
     for (const g of games) {
       const incrementDeck = (playerName: string, deck: string) => {
-        playerStatsMap[playerName].deckUsage[deck] = (playerStatsMap[playerName].deckUsage[deck] || 0) + 1;
-      }
+        playerStatsMap[playerName].deckUsage[deck] =
+          (playerStatsMap[playerName].deckUsage[deck] || 0) + 1;
+      };
       incrementDeck(player1, g.player1Deck);
       incrementDeck(player2, g.player2Deck);
     }
   }
 
-  return Object.values(playerStatsMap).sort((a,b) => b.points - a.points);
+  return Object.values(playerStatsMap).sort((a, b) => b.points - a.points);
 }
