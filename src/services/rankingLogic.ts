@@ -64,15 +64,6 @@ export function calculateRankingData(matches: Match[]): PlayerStats[] {
     playerStatsMap[winner].matches += 1;
     playerStatsMap[loser].losses += 1;
     playerStatsMap[loser].matches += 1;
-
-    for (const g of games) {
-      const incrementDeck = (playerName: string, deck: string) => {
-        playerStatsMap[playerName].deckUsage[deck] =
-          (playerStatsMap[playerName].deckUsage[deck] || 0) + 1;
-      };
-      incrementDeck(player1, g.player1Deck);
-      incrementDeck(player2, g.player2Deck);
-    }
   }
 
   return Object.values(playerStatsMap).sort((a, b) => b.points - a.points);

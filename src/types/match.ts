@@ -7,14 +7,13 @@ export type DeckType =
   | "kakuto"
   | "aku"
   | "hagane"
-  | "normal"
   | "";
 
 export interface Game {
   player1Score: number;
-  player1Deck: DeckType;
   player2Score: number;
-  player2Deck: DeckType;
+  player1Decks: DeckType[];
+  player2Decks: DeckType[];
 }
 
 export interface Match {
