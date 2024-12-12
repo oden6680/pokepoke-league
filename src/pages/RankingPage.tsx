@@ -11,15 +11,17 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
+import { allMatches } from "../data/dammyData";
 
 export function RankingPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [matches, setMatches] = useState<Match[]>([]);
 
   useEffect(() => {
     getAllMatches().then(setMatches);
   }, []);
 
-  const rankingData = calculateRankingData(matches);
+  const rankingData = calculateRankingData(allMatches);
 
   return (
     <Box p={2}>
