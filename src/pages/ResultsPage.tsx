@@ -95,7 +95,12 @@ export const ResultsPage = () => {
   return (
     <Box
       {...handlers}
-      sx={{ width: "100vw", height: "100%", overflow: "auto", p: 2 }}>
+      sx={{
+        width: "100vw",
+        height: "calc(100vh - 56px)",
+        overflow: "auto",
+        p: 2,
+      }}>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -105,7 +110,7 @@ export const ResultsPage = () => {
           <Tab key={w} label={`Week ${w}`} />
         ))}
       </Tabs>
-      <Box sx={{ pt: 2 }}>
+      <Box sx={{ pt: 2, marginBottom: 6 }}>
         {weeks.map((w, i) => {
           const matches = getMatchesForWeek(w);
           return (
@@ -116,7 +121,7 @@ export const ResultsPage = () => {
                 </Typography>
               ) : (
                 matches.map((match, idx) => (
-                  <Accordion key={idx}>
+                  <Accordion key={idx} sx={{ marginBottom: 1 }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                       <Box position="relative" width="100%" height="40px">
                         <Box
