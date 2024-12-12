@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { getAllMatches } from "../services/firestore";
+// import { useEffect, useState } from "react";
+// import { getAllMatches } from "../services/firestore";
 import { calculateRankingData } from "../services/rankingLogic";
-import { Match } from "../types/match";
+// import { Match } from "../types/match";
 import {
   Box,
   Typography,
@@ -14,12 +14,11 @@ import {
 import { allMatches } from "../data/dammyData";
 
 export function RankingPage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [matches, setMatches] = useState<Match[]>([]);
+  // const [matches, setMatches] = useState<Match[]>([]);
 
-  useEffect(() => {
-    getAllMatches().then(setMatches);
-  }, []);
+  // useEffect(() => {
+  //   getAllMatches().then(setMatches);
+  // }, []);
 
   const rankingData = calculateRankingData(allMatches);
 
