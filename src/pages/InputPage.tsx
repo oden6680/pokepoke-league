@@ -33,7 +33,7 @@ export function InputPage() {
   const [player2, setPlayer2] = useState<string>("");
 
   const [games, setGames] = useState<Game[]>(
-    Array.from({ length: 5 }, () => ({
+    Array.from({ length: 3 }, () => ({
       player1Score: 0,
       player2Score: 0,
       player1Decks: [],
@@ -112,8 +112,8 @@ export function InputPage() {
       }
     }
 
-    if (player1Wins < 3 && player2Wins < 3) {
-      return "5試合終了後も3勝したプレイヤーがいません";
+    if (player1Wins < 2 && player2Wins < 2) {
+      return "3試合終了後も2勝したプレイヤーがいません";
     }
 
     if (gameEndIndex !== null) {
@@ -165,7 +165,7 @@ export function InputPage() {
     setPlayer1("");
     setPlayer2("");
     setGames(
-      Array.from({ length: 5 }, () => ({
+      Array.from({ length: 3 }, () => ({
         player1Score: 0,
         player2Score: 0,
         player1Decks: [],
