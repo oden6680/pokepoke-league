@@ -1,7 +1,7 @@
-// import { useEffect, useState } from "react";
-// import { getAllMatches } from "../services/firestore";
+import { useEffect, useState } from "react";
+import { getAllMatches } from "../services/firestore";
 import { calculateRankingData } from "../services/rankingLogic";
-// import { Match } from "../types/match";
+import { Match } from "../types/match";
 import {
   Box,
   Typography,
@@ -10,20 +10,29 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Alert,
 } from "@mui/material";
 import { allMatches } from "../data/dammyData";
+import { isBeforeStartDate } from "../utils/startDate";
 
 export function RankingPage() {
-  // const [matches, setMatches] = useState<Match[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
 
-  // useEffect(() => {
-  //   getAllMatches().then(setMatches);
-  // }, []);
+  useEffect(() => {
+    getAllMatches().then(setMatches);
+  }, []);
 
-  const rankingData = calculateRankingData(allMatches);
+  const rankingData = calculateRankingData(
+    isBeforeStartDate ? allMatches : matches
+  );
 
   return (
     <Box p={2}>
+      {isBeforeStartDate && (
+        <Alert severity="warning" sx={{ mb: 2 }}>
+          大会開始前のため、表示されているデータはダミーデータです。
+        </Alert>
+      )}
       <Typography variant="h5" mb={2}>
         ポケミアリーグ Season1
       </Typography>

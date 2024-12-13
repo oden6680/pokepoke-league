@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -7,14 +7,15 @@ import {
   AccordionDetails,
   Tab,
   Tabs,
+  Alert,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { deckIcons } from "../services/deckIcons";
 import { allMatches } from "../data/dammyData";
-import { DeckType } from "../types/match";
+import { DeckType, Match } from "../types/match";
 import { useSwipeable } from "react-swipeable";
-
-const startDate = new Date("2024-12-17");
+import { startDate, today, isBeforeStartDate } from "../utils/startDate";
+import { getAllMatches } from "../services/firestore";
 
 const renderDeckIcons = (decks: DeckType[]) => {
   return (
@@ -40,12 +41,11 @@ const getWeekNumber = (dateStr: string) => {
   return Math.floor(diffDays / 7) + 1;
 };
 
-const getMatchesForWeek = (weekNumber: number) => {
-  return allMatches.filter((m) => getWeekNumber(m.matchDate) === weekNumber);
+const getMatchesForWeek = (weekNumber: number, matches: Match[]) => {
+  return matches.filter((m) => getWeekNumber(m.matchDate) === weekNumber);
 };
 
 const getCurrentWeekNumber = () => {
-  const today = new Date();
   const diffTime = today.getTime() - startDate.getTime();
   if (diffTime < 0) {
     return 1;
@@ -92,6 +92,12 @@ export const ResultsPage = () => {
     trackMouse: true,
   });
 
+  const [matches, setMatches] = useState<Match[]>([]);
+
+  useEffect(() => {
+    getAllMatches().then(setMatches);
+  }, []);
+
   return (
     <Box
       {...handlers}
@@ -110,17 +116,25 @@ export const ResultsPage = () => {
           <Tab key={w} label={`Week ${w}`} />
         ))}
       </Tabs>
-      <Box sx={{ pt: 2, marginBottom: 6 }}>
+      {isBeforeStartDate && (
+        <Alert severity="warning" sx={{ mb: 2 }}>
+          大会開始前のため、表示されているデータはダミーデータです。
+        </Alert>
+      )}
+      <Box sx={{ marginBottom: 6 }}>
         {weeks.map((w, i) => {
-          const matches = getMatchesForWeek(w);
+          const weekMatches = getMatchesForWeek(
+            w,
+            isBeforeStartDate ? allMatches : matches
+          );
           return (
             <TabPanel key={w} value={value} index={i}>
-              {matches.length === 0 ? (
+              {weekMatches.length === 0 ? (
                 <Typography textAlign="center">
                   この週の試合データはありません
                 </Typography>
               ) : (
-                matches.map((match, idx) => (
+                weekMatches.map((match, idx) => (
                   <Accordion key={idx} sx={{ marginBottom: 1 }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                       <Box position="relative" width="100%" height="40px">

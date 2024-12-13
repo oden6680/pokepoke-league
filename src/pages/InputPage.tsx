@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { DeckType, Game } from "../types/match";
 import { deckIcons } from "../services/deckIcons";
+import { isBeforeStartDate } from "../utils/startDate";
 
 const deckTypes: DeckType[] = [
   "kusa",
@@ -28,7 +29,7 @@ const deckTypes: DeckType[] = [
 
 const players = ["oden", "sakabun", "nayuta", "kanekyo"] as const;
 
-export function InputPage() {
+export const InputPage = () => {
   const [player1, setPlayer1] = useState<string>("");
   const [player2, setPlayer2] = useState<string>("");
 
@@ -41,7 +42,7 @@ export function InputPage() {
     }))
   );
 
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>(isBeforeStartDate? "大会開始前のため、データの保存はできません" : "");
 
   const updateGame = <K extends keyof Game>(
     index: number,
@@ -74,6 +75,10 @@ export function InputPage() {
   };
 
   const validateData = (): string | null => {
+    if (isBeforeStartDate) {
+      return "大会開始前のため、データの保存はできません";
+    }
+
     if (player1 === "" || player2 === "") {
       return "両方のプレイヤーを選択してください";
     }
