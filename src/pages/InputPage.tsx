@@ -75,10 +75,6 @@ export const InputPage = () => {
   };
 
   const validateData = (): string | null => {
-    if (isBeforeStartDate) {
-      return "大会開始前のため、データの保存はできません";
-    }
-
     if (player1 === "" || player2 === "") {
       return "両方のプレイヤーを選択してください";
     }

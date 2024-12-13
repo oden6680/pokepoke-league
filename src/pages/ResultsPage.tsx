@@ -117,7 +117,7 @@ export const ResultsPage = () => {
         ))}
       </Tabs>
       {isBeforeStartDate && (
-        <Alert severity="warning" sx={{ mb: 2 }}>
+        <Alert severity="warning">
           大会開始前のため、表示されているデータはダミーデータです。
         </Alert>
       )}

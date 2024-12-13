@@ -27,13 +27,13 @@ export function RankingPage() {
   );
 
   return (
-    <Box sx={{margin:1}}>
+    <Box>
       {isBeforeStartDate && (
-        <Alert severity="warning" sx={{ mb: 2 }}>
+        <Alert severity="warning" sx={{ margin: 2 }}>
           大会開始前のため、表示されているデータはダミーデータです。
         </Alert>
       )}
-      <Typography variant="h5" mb={2}>
+      <Typography variant="h5" p={1}>
         ポケミアリーグ Season1
       </Typography>
       <Table>
