@@ -113,7 +113,13 @@ export const ResultsPage = () => {
         variant="scrollable"
         scrollButtons="auto">
         {weeks.map((w) => (
-          <Tab key={w} label={`Week ${w}`} />
+          <Tab
+            key={w}
+            label={`Week ${w}`}
+            sx={{
+              "&:focus": { outline: "none" },
+            }}
+          />
         ))}
       </Tabs>
       {isBeforeStartDate && (

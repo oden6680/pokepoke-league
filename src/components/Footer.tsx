@@ -23,7 +23,7 @@ export const Footer = (): JSX.Element => {
   };
 
   const [value, setValue] = useState<number>(
-    getValueFromPath(location.pathname),
+    getValueFromPath(location.pathname)
   );
 
   const handleChange = (_event: SyntheticEvent, newValue: number) => {
@@ -49,11 +49,28 @@ export const Footer = (): JSX.Element => {
         right: 0,
         height: "56px",
         zIndex: 10,
-      }}
-    >
-      <BottomNavigationAction label="戦績" icon={<ListIcon />} />
-      <BottomNavigationAction label="順位表" icon={<LeaderboardIcon />} />
-      <BottomNavigationAction label="スコア入力" icon={<EditIcon />} />
+      }}>
+      <BottomNavigationAction
+        label="戦績"
+        icon={<ListIcon />}
+        sx={{
+          "&:focus": { outline: "none" },
+        }}
+      />
+      <BottomNavigationAction
+        label="順位表"
+        icon={<LeaderboardIcon />}
+        sx={{
+          "&:focus": { outline: "none" },
+        }}
+      />
+      <BottomNavigationAction
+        label="スコア入力"
+        icon={<EditIcon />}
+        sx={{
+          "&:focus": { outline: "none" },
+        }}
+      />
     </BottomNavigation>
   );
 };

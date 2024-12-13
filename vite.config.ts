@@ -14,7 +14,7 @@ export default defineConfig({
         description: "ポケミアリーグの成績管理アプリ",
         theme_color: "#ffffff",
         background_color: "#ffffff",
-        display: "standalone",
+        display: "fullscreen",
         start_url: "/",
         icons: [
           {
