@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { format } from "date-fns";
 import {
   Box,
   Typography,
@@ -8,6 +9,7 @@ import {
   Tab,
   Tabs,
   Alert,
+  Chip,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { deckIcons } from "../services/deckIcons";
@@ -53,6 +55,17 @@ const getCurrentWeekNumber = () => {
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   const w = Math.floor(diffDays / 7) + 1;
   return w > 12 ? 12 : w;
+};
+
+const getWeekStartAndEnd = (weekNumber: number) => {
+  const startOfWeek = new Date(
+    startDate.getTime() + (weekNumber - 1) * 7 * 24 * 60 * 60 * 1000
+  );
+  const endOfWeek = new Date(startOfWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+  return {
+    start: format(startOfWeek, "MM/dd"),
+    end: format(endOfWeek, "MM/dd"),
+  };
 };
 
 const TabPanel = (props: {
@@ -111,16 +124,42 @@ export const ResultsPage = () => {
         value={value}
         onChange={handleChange}
         variant="scrollable"
-        scrollButtons="auto">
-        {weeks.map((w) => (
-          <Tab
-            key={w}
-            label={`Week ${w}`}
-            sx={{
-              "&:focus": { outline: "none" },
-            }}
-          />
-        ))}
+        scrollButtons="auto"
+        sx={{
+          minHeight: "64px",
+        }}>
+        {weeks.map((w) => {
+          const { start, end } = getWeekStartAndEnd(w);
+          const isCurrentWeek = w === getCurrentWeekNumber();
+
+          return (
+            <Tab
+              key={w}
+              label={
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Typography>Week {w}</Typography>
+                  <Typography variant="caption">{`${start} - ${end}`}</Typography>
+                  {isCurrentWeek && (
+                    <Chip
+                      label="今日"
+                      size="small"
+                      color="primary"
+                      sx={{
+                        mt: 0.5,
+                        fontSize: "0.7rem",
+                        height: "20px",
+                      }}
+                    />
+                  )}
+                </Box>
+              }
+              sx={{
+                "&:focus": { outline: "none" },
+                minHeight: "64px",
+              }}
+            />
+          );
+        })}
       </Tabs>
       {isBeforeStartDate && (
         <Alert severity="warning">
