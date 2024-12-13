@@ -27,7 +27,7 @@ export function RankingPage() {
   );
 
   return (
-    <Box p={2}>
+    <Box sx={{margin:1}}>
       {isBeforeStartDate && (
         <Alert severity="warning" sx={{ mb: 2 }}>
           大会開始前のため、表示されているデータはダミーデータです。
@@ -39,30 +39,42 @@ export function RankingPage() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>プレイヤー</TableCell>
-            <TableCell>終</TableCell>
-            <TableCell>勝</TableCell>
-            <TableCell>負</TableCell>
-            <TableCell>+/-</TableCell>
-            <TableCell>差</TableCell>
-            <TableCell>点</TableCell>
+            <TableCell sx={{ width: "5%", textAlign: "center" }}>#</TableCell>
+            <TableCell sx={{ width: "40%" }}>Player</TableCell>
+            <TableCell sx={{ width: "7.5%", textAlign: "center" }}>
+              終
+            </TableCell>
+            <TableCell sx={{ width: "7.5%", textAlign: "center" }}>
+              勝
+            </TableCell>
+            <TableCell sx={{ width: "7.5%", textAlign: "center" }}>
+              負
+            </TableCell>
+            <TableCell sx={{ width: "15%", textAlign: "center" }}>
+              +/-
+            </TableCell>
+            <TableCell sx={{ width: "7.5%", textAlign: "center" }}>
+              差
+            </TableCell>
+            <TableCell sx={{ width: "10%", textAlign: "center" }}>点</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rankingData.map((p) => (
+          {rankingData.map((p, index) => (
             <TableRow key={p.playerName}>
+              <TableCell sx={{ textAlign: "center" }}>{index + 1}</TableCell>
               <TableCell>{p.playerName}</TableCell>
-              <TableCell>{p.matches}</TableCell>
-              <TableCell>{p.wins}</TableCell>
-              <TableCell>{p.losses}</TableCell>
-              <TableCell>
+              <TableCell sx={{ textAlign: "center" }}>{p.matches}</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>{p.wins}</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>{p.losses}</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>
                 {p.totalScored}-{p.totalConceded}
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ textAlign: "center" }}>
                 {p.totalScored - p.totalConceded > 0 ? "+" : ""}
                 {p.totalScored - p.totalConceded}
               </TableCell>
-              <TableCell>{p.points}</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>{p.points}</TableCell>
             </TableRow>
           ))}
         </TableBody>
